@@ -11,13 +11,6 @@
 };
 
 / {
-    behaviors {
-            tmv: trackball_move {
-                compatible = "zmk,behavior-sensor-rotate";
-                label = "TMOVE";
-                bindings = <&mmv>;
-            };
-    
             tsl: trackball_scroll {
                 compatible = "zmk,behavior-sensor-rotate";
                 label = "TSCROLL";
@@ -54,8 +47,6 @@
                                            &kp CLEAR  &kp CLEAR  &kp CLEAR    &kp CLEAR      &kp CLEAR
                                                       &kp CLEAR  &kp CLEAR    &kp CLEAR
             >;
-
-            trackball-bindings = <&tmv>;
         };
 
         layer_2 {
@@ -79,7 +70,6 @@
                                                           &mkp MB1   &mkp MB2           &kp ENTER
             >;
 
-            trackball-bindings = <&tsl>;
         };
 
         layer_3 {
@@ -102,7 +92,6 @@
                                    &none         &none         &none         &none         &none
                                                  &none         &none         &none
             >;
-          trackball-bindings = <&tsl>;
             
         };
 
@@ -130,7 +119,6 @@
             >;
                 
                 
-                trackball-bindings = <&tsl>;
         };
 
         layer_5 {
@@ -142,7 +130,6 @@
                            &trans     &mkp LCLK  &mkp RCLK    &mkp RCLK  &mkp LCLK
                                       &trans     &trans       &trans
             >;
-                trackball-bindings = <&tmv_fine>;
                 
         };*/
     };
