@@ -11,6 +11,19 @@
 };
 
 / {
+    behaviors {
+            tmv: trackball_move {
+                compatible = "zmk,behavior-sensor-rotate";
+                label = "TMOVE";
+                bindings = <&mmv>;
+            };
+    
+            tsl: trackball_scroll {
+                compatible = "zmk,behavior-sensor-rotate";
+                label = "TSCROLL";
+                bindings = <&mwh>;
+            };
+        };
     combos {
         compatible = "zmk,combos";
 
