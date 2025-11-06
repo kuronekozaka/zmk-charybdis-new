@@ -5,6 +5,9 @@
  */
  
 #include "charybdis.dtsi"
+// ★AML (オートマウスレイヤー) と KEYMAP_P マクロに必要な include を追加
+#include <input/processors.dtsi>
+#include <zephyr/dt-bindings/zmk/matrix_transform.h>
 
 &default_transform {
     col-offset = <6>;
@@ -33,4 +36,32 @@
 &trackball {
 	status = "okay"; //okay
 	irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+
+	// -45度 ( = 315度) の回転を追加
+    rotation = <315>;
+};
+
+// ■ 修正点 2: AML (オートマウスレイヤー)
+/ {
+    // AMLの誤爆防止設定
+    zip_temp_layer: zip_temp_layer {
+        compatible = "zmk,input-processor-temp-layer";
+        #input-processor-cells = <2>;
+        
+        // ★ご要望の機能 (キー入力直後の誤爆防止)★
+        // キー入力（キープレス）後、指定した時間(ミリ秒)が経過するまで
+        // トラックボールが動いてもAMLを有効にしません。
+        // (例: 200ms。この値はお好みで調整してください)
+        require-prior-idle-ms = <200>; 
+    };
+
+    // トラックボールが動いたらレイヤー5を5秒間有効にするリスナー
+    trackball_listener: trackball_listener {
+        compatible = "zmk,input-listener";
+        device = <&trackball>; // &trackball と連動
+
+        // <&zip_temp_layer [レイヤー番号] [タイムアウト(ms)]>
+        // (例: レイヤー5を5000ms有効にする)
+        input-processors = <&zip_temp_layer 5 5000>; 
+    };
 };
