@@ -3,5 +3,3 @@ config SHIELD_CHARYBDIS_LEFT
 
 config SHIELD_CHARYBDIS_RIGHT
     def_bool $(shields_list_contains,charybdis_right)
-
-source "../../../zmk/drivers/sensor/pmw3610/Kconfig"
