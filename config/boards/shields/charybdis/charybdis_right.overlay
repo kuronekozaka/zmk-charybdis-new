@@ -54,10 +54,25 @@
 
 &trackball {
 	status = "okay"; //okay
-	irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+	irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // この行は元の設定を維持します
 
-	// -45度 ( = 315度) の回転を追加
-    rotation = <315>;
+    /* ▼▼▼ 以下を追記します  ▼▼▼ */
+    cpi = ; /* DPI (CPI) の設定。600はお好みで変更可能 */
+    evt-type = <INPUT_EV_REL>; /* 必須：相対座標イベント */
+    x-input-code = <INPUT_REL_X>; /* 必須：X軸のイベントコード */
+    y-input-code = <INPUT_REL_Y>; /* 必須：Y軸のイベントコード */
+
+    /* ▼▼▼ オプション：回転設定  ▼▼▼ */
+    // -45度 ( = 315度) の回転を追加
+    // rotation = ; // ← このプロパティは badjeff ドライバでは認識されない可能性があります
+
+    /* 
+     * badjeff ドライバは代わりに以下のプロパティを使用します。
+     * -45度回転 (X/Y入れ替え + Y軸反転) が目的の場合は、
+     * おそらく以下の2行のコメントを解除（行頭の // を削除）する必要があります。
+     */
+    // swap-xy;
+    // invert-y; 
 };
 
 // ■ 修正点 2: AML (オートマウスレイヤー)
