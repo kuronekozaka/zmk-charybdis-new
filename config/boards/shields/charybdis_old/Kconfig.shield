@@ -3,3 +3,5 @@ config SHIELD_CHARYBDIS_LEFT
 
 config SHIELD_CHARYBDIS_RIGHT
     def_bool $(shields_list_contains,charybdis_right)
+
+rsource "$(ZEPHYR_ZMK_MODULE_DIR)/../../zmk-pmw3610-driver/Kconfig"
