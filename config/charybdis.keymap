@@ -36,7 +36,7 @@
             bindings = <
 &kp ESC              &kp Q      &kp W      &kp E      &kp R      &kp T        &kp Y          &kp U        &kp I  &kp O       &kp P          &kp BACKSPACE
 &mt LEFT_SHIFT CLCK  &kp A      &kp S      &kp D      &kp F      &kp G        &kp H          &kp J        &kp K  &kp L       &kp SEMICOLON  &kp RET
-&mt RCTRL LEFT_GUI   &kp Z      &kp X      &kp C      &kp V      &kp B        &kp COMMA      &kp N        &kp M  &kp PERIOD  &kp SLASH      &mo 2
+&mt RCTRL LEFT_GUI   &kp Z      &kp X      &kp C      &kp V      &kp B        &kp COMMA      &kp N        &kp M  &kp PERIOD  &kp SLASH      &lt 2 PRINTSCREEN
 &kp CLEAR            &kp CLEAR  &kp CLEAR  &kp F7     &kp SPACE  &kakko       &kp BACKSPACE  &lt 3 MINUS  &mo 1  &kp CLEAR   &kp CLEAR      &kp CLEAR
                                            &kp CLEAR  &kp CLEAR  &kp CLEAR    &kp CLEAR      &kp CLEAR
                                                       &kp CLEAR  &kp CLEAR    &kp CLEAR
