@@ -4,4 +4,9 @@ config SHIELD_CHARYBDIS_LEFT
 config SHIELD_CHARYBDIS_RIGHT
     def_bool $(shields_list_contains,charybdis_right)
 
-rsource "$(ZEPHYR_BASE)/../zmk-pmw3610-driver/Kconfig"
+if SHIELD_CHARYBDIS_LEFT || SHIELD_CHARYBDIS_RIGHT
+
+# ↓↓↓ この行のパスを修正
+rsource "$(ZEPHYR_BASE)/../zmk-pmw3610-driver/zephyr/Kconfig"
+
+endif
