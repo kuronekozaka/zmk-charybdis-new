@@ -6,7 +6,6 @@ config SHIELD_CHARYBDIS_RIGHT
 
 if SHIELD_CHARYBDIS_LEFT || SHIELD_CHARYBDIS_RIGHT
 
-# ↓↓↓ この行のパスを修正
-rsource "$(ZEPHYR_BASE)/../zmk-pmw3610-driver/zephyr/Kconfig"
+rsource "../zmk-pmw3610-driver/Kconfig"
 
 endif
