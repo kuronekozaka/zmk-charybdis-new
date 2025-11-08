@@ -3,11 +3,3 @@ config SHIELD_CHARYBDIS_LEFT
 
 config SHIELD_CHARYBDIS_RIGHT
     def_bool $(shields_list_contains,charybdis_right)
-
-if SHIELD_CHARYBDIS_LEFT || SHIELD_CHARYBDIS_RIGHT
-
-# ↓↓↓ この行を修正
-# $(ZEPHYR_BASE) からの絶対パスで、正しい .module ファイルを指定します
-rsource "$(ZEPHYR_BASE)/../zmk-pmw3610-driver/zephyr/Kconfig.module"
-
-endif
