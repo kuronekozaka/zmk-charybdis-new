@@ -16,6 +16,6 @@
     };
 };
 
-&input_split {
+&split {
     status = "okay";
 };
