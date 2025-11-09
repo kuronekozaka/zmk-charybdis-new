@@ -1,3 +1,5 @@
+// config/boards/shields/charybdis_old/charybdis_right.overlay
+
 #include "charybdis.dtsi"
 
 / {
@@ -21,9 +23,9 @@
 
 // 2. SPIバスとトラックボールの完全な定義
 &spi0 {
-    // ↓↓↓↓ ここから2行を修正しました ↓↓↓↓
-    pinctrl-0 = <&spi0_pins>;       // "spi0_default" -> "spi0_pins"
-    pinctrl-1 = <&spi0_sleep_pins>; // "spi0_sleep" -> "spi0_sleep_pins"
+    // ↓↓↓↓ 正しいラベル名に戻します ↓↓↓↓
+    pinctrl-0 = <&spi0_default>;       // "spi0_pins" -> "spi0_default"
+    pinctrl-1 = <&spi0_sleep>;         // "spi0_sleep_pins" -> "spi0_sleep"
     // ↑↑↑↑ ここまでが修正箇所 ↑↑↑↑
     
     pinctrl-names = "default", "sleep";
@@ -37,7 +39,7 @@
         duplex = <2048>;
         status = "okay"; 
 
-        // 今までの修正で確定したすべての必須項目
+        // 必須項目
         cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>; 
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
         evt-type = <2>;
