@@ -1,0 +1,55 @@
+# config/dts/bindings/pixart,pmw3610.yml (新しく作るファイル)
+
+compatible: "pixart,pmw3610"
+description: PMW3610 Trackball Sensor (Local Override)
+
+properties:
+  compatible:
+    type: string
+    required: true
+    const: "pixart,pmw3610"
+
+  reg:
+    type: int
+    required: true
+    description: SPI peripheral address
+
+  label:
+    type: string
+    required: true
+    description: Driver label
+
+  spi-max-frequency:
+    type: int
+    required: true
+
+  duplex:
+    type: int
+    required: false
+
+  # --- ↓↓↓ これが根本的なエラーの修正です ↓↓↓ ---
+  cs-gpios:
+    type: phandle-array
+    required: true
+    description: SPI chip select line
+  # --- ↑↑↑ これが根本的なエラーの修正です ↑↑↑ ---
+
+  irq-gpios:
+    type: phandle-array
+    required: true
+    description: Interrupt request pin
+
+  evt-type:
+    type: int
+    required: true
+    description: Input event type (e.g., EV_REL)
+
+  x-input-code:
+    type: int
+    required: true
+    description: Input code for X-axis (e.g., REL_X)
+
+  y-input-code:
+    type: int
+    required: true
+    description: Input code for Y-axis (e.g., REL_Y)
