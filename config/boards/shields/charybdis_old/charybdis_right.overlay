@@ -5,8 +5,11 @@
  */
  
 #include "charybdis.dtsi"
-// AML (オートマウスレイヤー) に必要な include
+// AML (オートマウスレイヤー) と pinctrl に必要な include
 #include <input/processors.dtsi>
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/pinctrl/nrf-pinctrl.h>
+
 
 &default_transform {
     col-offset = <6>;
@@ -23,26 +26,50 @@
 		;
 };
 
-/* --- ここから下を「修正前」の動いていた定義に戻します --- */
+/* --- ここから下を、新しい pinctrl 形式のSPI定義にします --- */
 
 // trackball bus
 &spi0 {
-	status = "okay"; //okay
-	sck-pin = <8>; //old
-    mosi-pin = <17>; //old
-    miso-pin = <17>;//old same as mosi (3-wire spi)
+	status = "okay";
+    // sck-pin などは pinctrl に移行
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-names = "default", "sleep";
 	cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
 };
 
+// pinctrl (ピン制御) の定義
+&pinctrl {
+    spi0_default: spi0_default {
+        group1 {
+            // SCK, MOSI, MISO のピンを定義
+            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 17)>;
+        };
+    };
+
+    spi0_sleep: spi0_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 17)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 17)>;
+            low-power-enable;
+        };
+    };
+};
+
+// トラックボールの定義は、カスタムドライバ(zmk-pmw3610-driver)に
+// 合わせて、cpi などのプロパティを含まないシンプルなものにします。
 &trackball {
-	status = "okay"; //okay
+	status = "okay";
 	irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
 
-/* --- ここまでが「修正前」のハードウェア定義です --- */
+/* --- ここまでがハードウェア定義です --- */
 
 
-/* --- ここから下が「修正後」のAML（機能）定義です --- */
+/* --- ここから下がAML（機能）定義です --- */
 
 / {
     // AMLの誤爆防止設定
@@ -52,7 +79,6 @@
         
         // キー入力（キープレス）後、指定した時間(ミリ秒)が経過するまで
         // トラックボールが動いてもAMLを有効にしません。
-        // (例: 200ms。この値はお好みで調整してください)
         require-prior-idle-ms = <200>; 
     };
 
@@ -61,7 +87,6 @@
         compatible = "zmk,input-listener";
         device = <&trackball>; // &trackball と連動
 
-        // <&zip_temp_layer [レイヤー番号] [タイムアウト(ms)]>
         // (例: レイヤー5を5000ms有効にする)
         input-processors = <&zip_temp_layer 5 5000>; 
     };
