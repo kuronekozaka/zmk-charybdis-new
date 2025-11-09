@@ -5,44 +5,41 @@
  */
  
 #include "charybdis.dtsi"
-// AML (オートマウスレイヤー) と pinctrl に必要な include
 #include <input/processors.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/pinctrl/nrf-pinctrl.h>
-
 
 &default_transform {
     col-offset = <6>;
 };
 
 &kscan0 {
-	col-gpios
-		= <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		, <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-		;
+    col-gpios
+        = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 29 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
 };
 
-/* --- ここから下を、新しい pinctrl 形式のSPI定義にします --- */
+/* --- 新しい pinctrl 形式のSPI定義 --- */
 
-// trackball bus
 &spi0 {
-	status = "okay";
-    // sck-pin などは pinctrl に移行
-    pinctrl-0 = <&spi0_default>;
-    pinctrl-1 = <&spi0_sleep>;
-    pinctrl-names = "default", "sleep";
-	cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+    status = "okay";
+    /* sck-pin などは pinctrl に移行 */
+    pinctrl-0 = <&spi0_default>;
+    pinctrl-1 = <&spi0_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
 };
 
-// pinctrl (ピン制御) の定義
+/* pinctrl (ピン制御) の定義 */
 &pinctrl {
     spi0_default: spi0_default {
         group1 {
-            // SCK, MOSI, MISO のピンを定義
+            /* SCK, MOSI, MISO のピンを定義 */
             psels = <NRF_PSEL(SPIM_SCK, 0, 8)>,
                     <NRF_PSEL(SPIM_MOSI, 0, 17)>,
                     <NRF_PSEL(SPIM_MISO, 0, 17)>;
@@ -59,35 +56,31 @@
     };
 };
 
-// トラックボールの定義は、カスタムドライバ(zmk-pmw3610-driver)に
-// 合わせて、cpi などのプロパティを含まないシンプルなものにします。
+/* トラックボールの定義 */
 &trackball {
-	status = "okay";
-	irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    status = "okay";
+    irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
 
-/* --- ここまでがハードウェア定義です --- */
 
-
-/* --- ここから下がAML（機能）定義です --- */
+/* --- AML（機能）定義 --- */
 
 / {
-    // AMLの誤爆防止設定
+    /* AMLの誤爆防止設定 */
     zip_temp_layer: zip_temp_layer {
         compatible = "zmk,input-processor-temp-layer";
         #input-processor-cells = <2>;
         
-        // キー入力（キープレス）後、指定した時間(ミリ秒)が経過するまで
-        // トラックボールが動いてもAMLを有効にしません。
+        /* キー入力後、指定した時間(ms)が経過するまでAMLを無効化 */
         require-prior-idle-ms = <200>; 
     };
 
-    // トラックボールが動いたらレイヤー5を5秒間有効にするリスナー
+    /* トラックボールが動いたらレイヤー5を5秒間有効にするリスナー */
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
-        device = <&trackball>; // &trackball と連動
+        device = <&trackball>; /* &trackball と連動 */
 
-        // (例: レイヤー5を5000ms有効にする)
+        /* <&zip_temp_layer [レイヤー番号] [タイムアウト(ms)]> */
         input-processors = <&zip_temp_layer 5 5000>; 
     };
 };
