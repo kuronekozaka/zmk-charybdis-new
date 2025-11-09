@@ -10,7 +10,7 @@
 
 roba_physical_layout: roba_physical_layout {
     compatible = "zmk,physical-layout";
-    // display-name = "default_transform"; // エラーの原因だったため削除
+    // display-name = "default_transform"; // <-- これが parse error の原因でした
     kscan = <&kscan0>;
     transform = <&default_transform>;
     keys  //                     w   h    x    y     rot    rx    ry
