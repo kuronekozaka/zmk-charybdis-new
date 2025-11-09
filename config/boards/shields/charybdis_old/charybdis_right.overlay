@@ -15,7 +15,3 @@
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // Add IRQ GPIO from user's snippet
     };
 };
-
-&split {
-    status = "okay";
-};
