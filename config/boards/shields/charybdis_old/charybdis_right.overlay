@@ -7,7 +7,7 @@
     };
 };
 
-// 1. kscan の「列」定義（あなたの設定を反映）
+// 1. kscan の「列」定義（あなたの設定）
 &kscan0 {
 	col-gpios
 		= <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -21,11 +21,12 @@
 
 // 2. SPIバスとトラックボールの完全な定義
 &spi0 {
-    // pinctrl の設定
-    pinctrl-0 = <&spi0_default>;
-    pinctrl-1 = <&spi0_sleep>;
-    pinctrl-names = "default", "sleep";
+    // ↓↓↓↓ ここから2行を修正しました ↓↓↓↓
+    pinctrl-0 = <&spi0_pins>;       // "spi0_default" -> "spi0_pins"
+    pinctrl-1 = <&spi0_sleep_pins>; // "spi0_sleep" -> "spi0_sleep_pins"
+    // ↑↑↑↑ ここまでが修正箇所 ↑↑↑↑
     
+    pinctrl-names = "default", "sleep";
     status = "okay"; // SPIバスを有効化
 
     trackball: trackball@0 {
