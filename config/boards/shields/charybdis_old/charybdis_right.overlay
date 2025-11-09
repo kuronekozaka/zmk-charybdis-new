@@ -6,12 +6,8 @@
     };
 };
 
-&spi0 {
-    status = "okay"; // Enable the SPI bus
-
-    trackball: trackball@0 { // Reference the existing trackball node
-        status = "okay"; // Enable the trackball device
-        cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>; // Add CS GPIO from user's snippet
-        irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; // Add IRQ GPIO from user's snippet
-    };
+&trackball {
+    status = "okay"; // トラックボールを有効化
+    cs-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+    irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 };
