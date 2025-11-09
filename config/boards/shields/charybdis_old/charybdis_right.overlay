@@ -1,5 +1,5 @@
 // config/boards/shields/charybdis_old/charybdis_right.overlay
-// (これは前回の指示から変更なし)
+// (dtsi の修正に合わせて chosen を修正)
 
 #include "charybdis.dtsi"
 
@@ -7,6 +7,8 @@
     chosen {
         zmk,kscan = <&kscan0>;
         zmk,pointing = <&trackball>;
+        // ↓ dtsi から移動させた、必須の行
+        zmk,physical-layout = &roba_physical_layout; 
     };
 };
 
@@ -24,13 +26,14 @@
 
 // 2. SPIバスとトラックボールの完全な定義
 &spi0 {
+    // dtsi が修正されたため、これが今度こそ見つかるはず
     pinctrl-0 = <&spi0_default>;
     pinctrl-1 = <&spi0_sleep>;
     pinctrl-names = "default", "sleep";
     status = "okay"; 
 
     trackball: trackball@0 {
-        compatible = "pixart,pmw3G10";
+        compatible = "pixart,pmw3610";
         reg = <0>;
         label = "TRACKBALL";
         spi-max-frequency = <2000000>;
