@@ -5,12 +5,11 @@
 #include <dt-bindings/led/led.h>
 #include <physical_layouts.dtsi>
 
-// / { ... } と &chosen を削除しました。
-// これで &spi0_default が隠されなくなります。
+// / { ... } と &chosen と display-name を削除しました。
+// これで &spi0_default が隠されなくなり、parse error も解消されます。
 
 roba_physical_layout: roba_physical_layout {
     compatible = "zmk,physical-layout";
-    // display-name = "default_transform"; // <-- これが parse error の原因でした
     kscan = <&kscan0>;
     transform = <&default_transform>;
     keys  //                     w   h    x    y     rot    rx    ry
